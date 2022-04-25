@@ -27,8 +27,15 @@ public class PlantController {
 
     @PostMapping("/plants")
     public Plant createNewPlant(@RequestBody Plant plant) {
-        Plant newPlant = this.plantRepository.save(plant);
-        return newPlant;
+        Plant plant1 = new Plant();
+        Iterable<Plant> plantList =  getAllPlants();
+        for ( Plant plantObj : plantList) {
+            if (plant.getName().equals(plantObj.getName())) {
+                plant1.setName("Planta ja cadastrada");
+                return plant1;
+            }
+        }
+        return this.plantRepository.save(plant);
     }
 
     @PutMapping("/plants/{id}")
